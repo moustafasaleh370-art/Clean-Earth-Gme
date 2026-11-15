@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7ed">
+  <meta name="description" content="A colorful little planet-saving adventure. Pick up litter, sort it right, and make every level greener.">
+  <title>Clean Earth — Environmental Hero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Clean Earth home">
+        <span class="brand-mark" aria-hidden="true">✳</span>
+        <span>little planet<span class="brand-dot">.</span></span>
+      </a>
+      <div class="topbar-note"><span class="live-dot"></span> A tiny adventure for a greener world</div>
+      <button class="sound-button" id="sound-button" aria-label="Turn sound off" title="Toggle sound">
+        <svg id="sound-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Zm4 4a5 5 0 0 1 0 6m3-9a9 9 0 0 1 0 12"/></svg>
+        <span id="sound-label">Sound on</span>
+      </button>
+    </header>
+
+    <section class="game-shell" aria-label="Clean Earth game">
+      <div class="game-topline">
+        <div class="level-intro">
+          <span class="eyebrow" id="level-kicker">YOUR LITTLE MISSION</span>
+          <h1 id="level-title">The world could use a hand.</h1>
+        </div>
+        <div class="hud" id="hud" hidden>
+          <div class="hud-stat"><span class="stat-icon">✦</span><span class="stat-copy"><small>POINTS</small><strong id="score">0000</strong></span></div>
+          <div class="hud-stat"><span class="stat-icon time-icon">◷</span><span class="stat-copy"><small>TIME LEFT</small><strong id="timer">01:30</strong></span></div>
+          <div class="hud-stat"><span class="stat-icon heart-icon">♥</span><span class="stat-copy"><small>ENERGY</small><strong id="health">♥ ♥ ♥</strong></span></div>
+          <button class="pause-button" id="pause-button" aria-label="Pause game" title="Pause game"><span></span><span></span></button>
+        </div>
+      </div>
+
+      <div class="scene-wrap" id="scene-wrap">
+        <canvas id="game-canvas" width="1200" height="720" aria-label="Game field. Use the arrow keys or WASD to move. In the park, collect seeds from the chest and press E or Space near the garden to plant and water."></canvas>
+        <div class="scene-shade"></div>
+        <div class="floating-label" id="area-label"><span class="label-sparkle">✳</span><span id="area-name">MAPLEWOOD PARK</span></div>
+        <div class="level-progress" id="level-progress" hidden>
+          <span class="progress-label">A LITTLE CLEANER</span>
+          <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+          <span id="progress-count">0 / 0</span>
+        </div>
+        <div class="inventory" id="inventory" hidden>
+          <span class="inventory-emoji" id="inventory-icon">🧤</span>
+          <span><small>IN YOUR HANDS</small><strong id="inventory-name">Nothing yet</strong></span>
+        </div>
+        <div class="seed-counter" id="seed-counter" hidden>
+          <span aria-hidden="true">🌰</span><span>SEEDS</span><strong id="seed-count">0</strong>
+        </div>
+
+        <div class="screen-layer" id="screen-layer">
+          <section class="dialog home-dialog" id="home-screen">
+            <div class="hero-copy">
+              <span class="hero-pill"><span>✿</span> YOUR PLANET NEEDS YOU</span>
+              <h2>Small steps.<br><span>Big green</span> energy.</h2>
+              <p>Pick up the litter, sort it right, and help nature feel like itself again.</p>
+              <div class="hero-actions">
+                <button class="button button-primary" id="play-button">Let's play <span>→</span></button>
+                <button class="button button-quiet" id="how-button"><span class="play-mini">▶</span> How to play</button>
+              </div>
+              <div class="best-score"><span class="best-icon">✧</span> YOUR BEST <strong id="best-score">0000</strong></div>
+            </div>
+            <div class="earth-art" aria-hidden="true">
+              <div class="sun-halo"></div><div class="sun"></div>
+              <div class="cloud cloud-one"></div><div class="cloud cloud-two"></div>
+              <div class="hill hill-back"></div><div class="hill hill-front"></div>
+              <div class="earth-ball"><div class="earth-land land-one"></div><div class="earth-land land-two"></div><div class="earth-land land-three"></div><div class="earth-shine"></div><div class="orbit-orbit"></div><div class="orbit-spark">✦</div></div>
+              <div class="art-flower flower-one">✿</div><div class="art-flower flower-two">✿</div>
+              <div class="art-leaf leaf-one">⌁</div><div class="art-leaf leaf-two">⌁</div>
+              <div class="tiny-bird bird-one">⌁</div><div class="tiny-bird bird-two">⌁</div>
+              <div class="earth-caption">one happy planet <span>♡</span></div>
+            </div>
+          </section>
+
+          <section class="dialog info-dialog" id="how-screen" hidden>
+            <span class="dialog-kicker">THE KIND THING TO DO</span>
+            <h2>How to play</h2>
+            <p class="dialog-lede">A few little moves make a whole lot of difference.</p>
+            <div class="how-steps">
+              <div class="how-step"><span class="step-number">01</span><span class="step-emoji">🧭</span><div><strong>Wander around</strong><small>Use <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or your arrow keys.</small></div></div>
+              <div class="how-step"><span class="step-number">02</span><span class="step-emoji">🧤</span><div><strong>Pick up the litter</strong><small>Walk close to an item to scoop it up.</small></div></div>
+              <div class="how-step"><span class="step-number">03</span><span class="step-emoji">♻️</span><div><strong>Sort it with care</strong><small>Visit the matching bin and press <kbd>E</kbd> or <kbd>Space</kbd>.</small></div></div>
+              <div class="how-step"><span class="step-number">04</span><span class="step-emoji">🌰</span><div><strong>Pick up seeds</strong><small>In the park, press <kbd>E</kbd> or <kbd>Space</kbd> by the seed chest to collect seven seeds at a time.</small></div></div>
+              <div class="how-step"><span class="step-number">05</span><span class="step-emoji">🌱</span><div><strong>Grow 14 plants</strong><small>At the big soil bed, press <kbd>E</kbd> to plant and again to water with drip irrigation. Repeat for all 14 spots to fill the garden with blooms.</small></div></div>
+            </div>
+            <div class="bin-key"><span>BLUE · PAPER</span><span>YELLOW · PLASTIC</span><span>GREEN · GLASS</span><span>RED · METAL</span><span>GARDEN · DRIP IRRIGATION</span></div>
+            <button class="button button-primary dialog-button" id="how-play-button">Got it, let's go <span>→</span></button>
+            <button class="text-button" id="how-back-button">Back to the garden</button>
+          </section>
+
+          <section class="dialog info-dialog settings-dialog" id="settings-screen" hidden>
+            <span class="dialog-kicker">MAKE YOURSELF AT HOME</span>
+            <h2>A few little settings</h2>
+            <p class="dialog-lede">Make your planet-saving adventure feel just right.</p>
+            <div class="setting-row"><div><strong>Music &amp; sound effects</strong><small>Gentle looping music and little sounds for your good deeds</small></div><button class="toggle is-on" id="settings-sound" role="switch" aria-checked="true" aria-label="Toggle music and sound effects"><span></span></button></div>
+            <div class="setting-row"><div><strong>Motion</strong><small>Turn off the menu's gentle animations</small></div><button class="toggle is-on" id="motion-toggle" role="switch" aria-checked="true" aria-label="Toggle animations"><span></span></button></div>
+            <button class="button button-primary dialog-button" id="settings-back-button">Lovely <span>→</span></button>
+          </section>
+
+          <section class="dialog pause-dialog" id="pause-screen" hidden>
+            <span class="pause-flower">❋</span><span class="dialog-kicker">TAKE YOUR TIME</span>
+            <h2>A little breather?</h2>
+            <p class="dialog-lede">The planet will be right here when you're ready.</p>
+            <button class="button button-primary dialog-button" id="resume-button">Keep going <span>→</span></button>
+            <button class="text-button" id="pause-home-button">Back to the garden</button>
+          </section>
+
+          <section class="dialog result-dialog" id="result-screen" hidden>
+            <div class="result-art" id="result-art">🌼</div>
+            <span class="dialog-kicker" id="result-kicker">MISSION COMPLETE</span>
+            <h2 id="result-title">Look what you did.</h2>
+            <p class="dialog-lede" id="result-message">A little patch of the planet is smiling again.</p>
+            <div class="result-points"><span>THIS ADVENTURE</span><strong id="result-score">0000</strong></div>
+            <div class="next-level" id="next-level">NEXT UP <strong>Sunnyshore Beach</strong><span>→</span></div>
+            <button class="button button-primary dialog-button" id="continue-button">On to the next <span>→</span></button>
+            <button class="text-button" id="result-home-button">Back to the garden</button>
+          </section>
+
+          <section class="dialog settings-entry" id="settings-entry">
+            <button class="small-icon-button" id="settings-button" aria-label="Open settings" title="Settings">⚙</button>
+          </section>
+          <div class="level-chip" id="level-chip" hidden><span>DAY</span><strong id="level-number">01</strong><i></i><span id="level-short-name">PARK</span></div>
+          <div class="objective-toast" id="objective-toast" hidden><span>✦</span> <strong id="objective-text">Find the litter and help it find a home.</strong></div>
+        </div>
+      </div>
+
+      <footer class="game-footer">
+        <div class="footer-copy"><span class="footer-flower">✿</span><span><strong>Every little bit helps.</strong><small>Thanks for being here for our planet.</small></span></div>
+        <div class="level-dots" id="level-dots" aria-label="Game levels"><span class="active"></span><span></span><span></span><span></span></div>
+        <button class="footer-settings" id="footer-settings-button"><span>⚙</span> Settings</button>
+      </footer>
+    </section>
+    <p class="page-note">MADE FOR THE LOVE OF OUR BIG, BEAUTIFUL HOME <span>✿</span></p>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
